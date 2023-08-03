@@ -14,7 +14,7 @@ RUN case `uname -m` in \
     echo "export ARCH=$ARCH" > /envfile && \
     cat /envfile
 
-RUN  apk add --update --no-cache curl ca-certificates bash gettext
+RUN  apk add --update --no-cache curl ca-certificates bash gettext git
 
 # Install kubectl
 RUN . /envfile && echo $ARCH && \
