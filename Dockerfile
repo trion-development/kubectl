@@ -38,7 +38,7 @@ RUN . /envfile && echo $ARCH && \
 RUN . /envfile && echo $ARCH && \
     curl -sLo kind https://kind.sigs.k8s.io/dl/latest/kind-linux-${ARCH} && \
     chmod +x kind && \
-    mv kind /usr/bin/ && \
+    mv kind /usr/bin/
 
 COPY init.sh entrypoint.sh /app/
 
