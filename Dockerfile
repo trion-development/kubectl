@@ -1,4 +1,4 @@
-FROM alpine:3.18
+FROM alpine:3
 
 ENTRYPOINT [ "/app/entrypoint.sh" ]
 WORKDIR /work
@@ -33,6 +33,12 @@ RUN . /envfile && echo $ARCH && \
     mv kustomize /usr/bin/kustomize && \
     chmod +x /usr/bin/kustomize && \
     rm kustomize.tgz
+
+# Install kind
+RUN . /envfile && echo $ARCH && \
+    curl -sLo kind https://kind.sigs.k8s.io/dl/latest/kind-linux-${ARCH} && \
+    chmod +x kind && \
+    mv kind /usr/bin/ && \
 
 COPY init.sh entrypoint.sh /app/
 
