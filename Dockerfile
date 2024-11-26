@@ -40,5 +40,17 @@ RUN . /envfile && echo $ARCH && \
     chmod +x kind && \
     mv kind /usr/bin/
 
+# Install kuttl
+RUN . /envfile && echo $(uname -m) && \
+if [ "$ARCH" = "amd64" ] || [ "$ARCH" = "arm64" ]; then \
+    curl -sLo kuttl https://github.com/kudobuilder/kuttl/releases/download/v0.19.0/kubectl-kuttl_0.19.0_linux_$(uname -m) && \
+    chmod +x kuttl && \
+    mv kuttl /usr/bin/ && \
+    ln -s /usr/bin/kuttl /usr/bin/kubectl-kuttl; \
+else \
+    echo "Skipping kuttl installation for $ARCH"; \
+fi
+
+
 COPY init.sh entrypoint.sh /app/
 
