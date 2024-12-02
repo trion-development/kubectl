@@ -14,7 +14,7 @@ RUN case `uname -m` in \
     echo "export ARCH=$ARCH" > /envfile && \
     cat /envfile
 
-RUN  apk add --update --no-cache curl ca-certificates bash gettext git tar docker-cli
+RUN  apk add --update --no-cache curl ca-certificates bash gettext git tar
 
 # Install kubectl
 RUN . /envfile && echo $ARCH && \
@@ -61,7 +61,7 @@ RUN . /envfile && echo $ARCH && \
     curl -sLo kind https://kind.sigs.k8s.io/dl/latest/kind-linux-${ARCH} && \
     chmod +x kind && \
     mv kind /usr/bin/
-# kind needs docker cli
+# kind needs docker cli, see :docker tagged image
 
 
 COPY init.sh entrypoint.sh /app/
