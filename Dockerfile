@@ -51,9 +51,9 @@ RUN . /envfile && echo $ARCH \
     && HELM_VERSION=$(curl -s https://api.github.com/repos/helm/helm/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/') \
     && curl -fsSL https://get.helm.sh/helm-${HELM_VERSION}-linux-${ARCH}.tar.gz -o helm.tar.gz \
     && tar -zxvf helm.tar.gz \
-    && mv linux-amd64/helm /usr/local/bin/helm \
+    && mv **/helm /usr/local/bin/helm \
     && chmod +x /usr/local/bin/helm \
-    && rm -rf linux-amd64 helm.tar.gz
+    && rm -rf helm.tar.gz linux-*
 
 
 # Install kind
