@@ -14,7 +14,7 @@ RUN case `uname -m` in \
     echo "export ARCH=$ARCH" > /envfile && \
     cat /envfile
 
-RUN  apk add --update --no-cache curl ca-certificates bash gettext git
+RUN  apk add --update --no-cache curl ca-certificates bash gettext git tar
 
 # Install kubectl
 RUN . /envfile && echo $ARCH && \
@@ -34,11 +34,6 @@ RUN . /envfile && echo $ARCH && \
     chmod +x /usr/bin/kustomize && \
     rm kustomize.tgz
 
-# Install kind
-RUN . /envfile && echo $ARCH && \
-    curl -sLo kind https://kind.sigs.k8s.io/dl/latest/kind-linux-${ARCH} && \
-    chmod +x kind && \
-    mv kind /usr/bin/
 
 # Install kuttl
 RUN . /envfile && echo $(uname -m) && \
@@ -50,6 +45,22 @@ if [ "$ARCH" = "amd64" ] || [ "$ARCH" = "arm64" ]; then \
 else \
     echo "Skipping kuttl installation for $ARCH"; \
 fi
+
+# Install helm
+RUN . /envfile && echo $ARCH \
+    && HELM_VERSION=$(curl -s https://api.github.com/repos/helm/helm/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/') \
+    && curl -fsSL https://get.helm.sh/helm-${HELM_VERSION}-linux-${ARCH}.tar.gz -o helm.tar.gz \
+    && tar -zxvf helm.tar.gz \
+    && mv linux-amd64/helm /usr/local/bin/helm \
+    && chmod +x /usr/local/bin/helm \
+    && rm -rf linux-amd64 helm.tar.gz
+
+
+# Install kind
+RUN . /envfile && echo $ARCH && \
+    curl -sLo kind https://kind.sigs.k8s.io/dl/latest/kind-linux-${ARCH} && \
+    chmod +x kind && \
+    mv kind /usr/bin/
 
 
 COPY init.sh entrypoint.sh /app/
