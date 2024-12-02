@@ -25,6 +25,9 @@ jobs:
           #if this is a branch, use the branch name instead
           if [[ $GITHUB_REF == refs/heads/* ]]; then
             VERSION=${GITHUB_REF#refs/heads/}
+            if [[ $VERSION == "main" ]]; then
+                VERSION="latest"
+            fi
           fi
 
           TAGS="${DOCKER_IMAGE}:${VERSION}"
