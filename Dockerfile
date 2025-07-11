@@ -34,7 +34,6 @@ RUN . /envfile && echo $ARCH && \
     chmod +x /usr/bin/kustomize && \
     rm kustomize.tgz
 
-
 # Install kuttl
 RUN . /envfile && echo $(uname -m) && \
 if [ "$ARCH" = "amd64" ] || [ "$ARCH" = "arm64" ]; then \
@@ -55,7 +54,6 @@ RUN . /envfile && echo $ARCH \
     && chmod +x /usr/local/bin/helm \
     && rm -rf helm.tar.gz linux-*
 
-
 # Install kind
 RUN . /envfile && echo $ARCH && \
     curl -sLo kind https://kind.sigs.k8s.io/dl/latest/kind-linux-${ARCH} && \
@@ -63,6 +61,8 @@ RUN . /envfile && echo $ARCH && \
     mv kind /usr/bin/
 # kind needs docker cli, see :docker tagged image
 
+# Install jq
+RUN apk add -U jq
 
 COPY init.sh entrypoint.sh /app/
 
