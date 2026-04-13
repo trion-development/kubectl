@@ -62,7 +62,7 @@ RUN . /envfile && echo $ARCH && \
 # kind needs docker cli, see :docker tagged image
 
 # Install jq
-RUN apk add -U jq
+RUN apk add -U jq rsync
 
 COPY init.sh entrypoint.sh /app/
 
