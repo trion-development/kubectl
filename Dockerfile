@@ -63,6 +63,7 @@ RUN . /envfile && echo $ARCH && \
 
 # Install jq
 RUN apk add -U jq rsync
+WORKDIR /home/user
 
 COPY init.sh entrypoint.sh /app/
 
